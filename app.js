@@ -46,10 +46,28 @@ const server = http.createServer((request, response)=> {
         request.on('end', ()=>{
             const formInput = Buffer.concat(methodBody).toString();
             const messages = formInput.split('&');
-            messages.forEach(message => fileSystem.appendFileSync('messages.txt', message+'\n'));
-        });
+            /*
+               -> Writing to a file in a synchronised mode is not advisable as file I/O is blocking.
+               -> It blocks the execution of next instructions until the I/O is complete.
+            */
 
-        return response.end();
+            messages.forEach(message => fileSystem.appendFile('messages.txt', message+'\n', (err => {
+                
+                /*  
+                    Returning the response from callback ensures that the successful response is returned 
+                    when the writing to the file is executed without any issue.
+                */
+                if(err==null){
+                    response.write('<html>');
+                    response.write('<head/>');
+                    response.write('<body>');
+                    response.write('<h2>Message Saved</h2>');
+                    response.write('</body>');
+                    response.write('</html>');
+                    return response.end();
+                }
+            })));
+        });
     }
 
 });
