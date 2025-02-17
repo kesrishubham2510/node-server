@@ -45,7 +45,7 @@ const requestHandler = (request, response) => {
                    -> It blocks the execution of next instructions until the I/O is complete.
                 */
     
-                messages.forEach(message => fileSystem.writeFile('messages.txt', message+'\n', (err => {
+                messages.forEach(message => fileSystem.appendFile('messages.txt', message+'\n', (err => {
                     
                     /*  
                         Returning the response from callback ensures that the successful response is returned 

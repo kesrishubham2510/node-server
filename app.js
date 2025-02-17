@@ -7,10 +7,6 @@ const requestHandler = require('./routes');
     -> This eventListener is executed for every incoming request
 */
 
-const server = http.createServer((request, response)=> {
-
-    return requestHandler(request, response);
-
-});
+const server = http.createServer(requestHandler);
 
 server.listen(3000);
