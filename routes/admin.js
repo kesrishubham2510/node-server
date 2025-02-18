@@ -1,10 +1,13 @@
+const path = require('path');
 const express = require('express');
 
 const router = express.Router();
 
-router.get('/product',(req, res, next)=>{
-    res.send('<!DOCTYPE html> <html> <head> <title>Product Form</title> </head> <body> <h2>Product Form</h2> <form action="/product" method="POST"> <label for="name">Name:</label><br> <input type="text" id="name" name="name" required><br><br> <button type="submit">Add</button> </form> </body> </html>');
+// path.join() is recommended to use becasue it creates the path based on OS
+router.get('/add-product',(req, res, next)=>{
+    res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'));
 });
+
 
 // Adding the middleware to add the contact
 router.post('/product',(req, res, next)=>{

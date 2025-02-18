@@ -1,4 +1,5 @@
 const http = require('http');
+const path = require('path');
 
 const adminRoutes = require('./routes/admin');
 const homeRoutes = require('./routes/home');
@@ -14,13 +15,14 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
 // adding the route middleware
-app.use(adminRoutes);
+// only the paths starting with /admin will be redirected to adminRoutes
+app.use('/admin', adminRoutes);
 app.use(homeRoutes);
 
 // middleware to handle any un-recognised API
 app.use('/', (req, res, next)=>{
     res.status(404);
-    res.send('<html><head></head><body><h1>! 404 Not found !</h1></body></html>')
+    res.sendFile(path.join(__dirname, './', 'views', 'NotFound.html'))
 });
 
 const server = http.createServer(app);
