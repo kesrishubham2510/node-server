@@ -15,6 +15,9 @@ const app = express();
 // false means, parse the incoming data as simple objects like array, String
 app.use(bodyParser.urlencoded({extended: false}));
 
+// middleware to support static delivery of css pages
+app.use(express.static(path.join(rootDir, 'public')));
+
 // adding the route middleware
 // only the paths starting with /admin will be redirected to adminRoutes
 app.use('/admin', adminRoutes);
